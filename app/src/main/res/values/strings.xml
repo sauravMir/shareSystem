@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Json Reader</string>
+    <string name="share">Share File</string>
+    <string name="task_pack">Template Creator Task Pack</string>
 </resources>
