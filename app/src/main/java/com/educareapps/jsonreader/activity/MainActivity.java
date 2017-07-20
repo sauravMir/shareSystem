@@ -30,26 +30,27 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public class MainActivity extends Activity implements View.OnClickListener{
-ImageButton ibtnImportId,ibtnShareId;
+public class MainActivity extends Activity implements View.OnClickListener {
+    ImageButton ibtnImportId, ibtnShareId;
     MainActivity activity;
     ProgressDialog pDialog;
     Share share;
     private IDatabaseManager databaseManager;
     ItemAdapter itemAdapter;
-    ArrayList<TaskPack>allTaskPackArr;
-    ArrayList<Item>allItemArr;
+    ArrayList<TaskPack> allTaskPackArr;
+    ArrayList<Item> allItemArr;
     ListView lvItem;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        activity=this;
+        activity = this;
         share = new Share(activity);
-        databaseManager=new DatabaseManager(activity);
-        ibtnImportId=(ImageButton)findViewById(R.id.ibtnImportId);
-        ibtnShareId=(ImageButton)findViewById(R.id.ibtnShareId);
-        lvItem=(ListView) findViewById(R.id.lvItem);
+        databaseManager = new DatabaseManager(activity);
+        ibtnImportId = (ImageButton) findViewById(R.id.ibtnImportId);
+        ibtnShareId = (ImageButton) findViewById(R.id.ibtnShareId);
+        lvItem = (ListView) findViewById(R.id.lvItem);
         reloadItems();
 
         ibtnImportId.setOnClickListener(this);
@@ -58,33 +59,19 @@ ImageButton ibtnImportId,ibtnShareId;
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.ibtnImportId:
 //                taskPackDelete();
+                new DeleteAsync().execute();
 
-                FileDialog fileDialog = new FileDialog(activity, FileDialog.Strategy.FILE);
-                fileDialog.setCancelable(false);
-                fileDialog.show();
-                fileDialog.setOnSelectListener(new SelectorDialog.OnSelectListener() {
-                    @Override
-                    public void onSelect(String filePath) {
-                        if (filePath != null && filePath.endsWith(StaticAccess.DOT_JSON.toUpperCase())) {
-                            new JsonReading(filePath).execute();
-                        } else{
-                            Toast.makeText(activity, "no file path", Toast.LENGTH_LONG).show();
-                        }
-
-                        Toast.makeText(activity, filePath, Toast.LENGTH_LONG).show();
-                    }
-                });
                 break;
-              case R.id.ibtnShareId:
+            case R.id.ibtnShareId:
                 break;
 
         }
     }
 
-  private   class JsonReading extends AsyncTask<String, String, String> {
+    private class JsonReading extends AsyncTask<String, String, String> {
         String filePath;
 
 
@@ -118,17 +105,13 @@ ImageButton ibtnImportId,ibtnShareId;
                 pDialog.dismiss();
             }
             reloadItems();
+
         }
 
     }
 
-    private   class DeleteAsync extends AsyncTask<String, String, String> {
-        String filePath;
+    private class DeleteAsync extends AsyncTask<String, String, String> {
 
-
-        public DeleteAsync(String filePath) {
-            this.filePath = filePath;
-        }
 
         @Override
         protected void onPreExecute() {
@@ -156,16 +139,31 @@ ImageButton ibtnImportId,ibtnShareId;
             }
             reloadItems();
 
+            FileDialog fileDialog = new FileDialog(activity, FileDialog.Strategy.FILE);
+            fileDialog.setCancelable(false);
+            fileDialog.show();
+            fileDialog.setOnSelectListener(new SelectorDialog.OnSelectListener() {
+                @Override
+                public void onSelect(String filePath) {
+                    if (filePath != null && filePath.endsWith(StaticAccess.DOT_JSON.toUpperCase())) {
+                        new JsonReading(filePath).execute();
+                    } else {
+                        Toast.makeText(activity, "no file path", Toast.LENGTH_LONG).show();
+                    }
+
+                    Toast.makeText(activity, filePath, Toast.LENGTH_LONG).show();
+                }
+            });
+
         }
 
     }
 
 
     // delete all data
-
     public void taskPackDelete() {
-        allTaskPackArr =new ArrayList<>();
-        allTaskPackArr= (ArrayList<TaskPack>) databaseManager.listTaskPacks();
+        allTaskPackArr = new ArrayList<>();
+        allTaskPackArr = (ArrayList<TaskPack>) databaseManager.listTaskPacks();
         if (allTaskPackArr != null) {
             for (TaskPack taskPack : allTaskPackArr) {
 
@@ -192,22 +190,23 @@ ImageButton ibtnImportId,ibtnShareId;
     }
 
     private void reloadItems() {
-        allItemArr=new ArrayList<>();
-        allItemArr=(ArrayList<Item>) databaseManager.listItems();
-        if(allItemArr.size()>0){
-             itemAdapter=new ItemAdapter(activity,allItemArr);
-            lvItem.setAdapter(itemAdapter);
-            lvItem.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        allItemArr = new ArrayList<>();
+        allItemArr = (ArrayList<Item>) databaseManager.listItems();
 
-                }
-            });
-        }
+        itemAdapter = new ItemAdapter(activity, allItemArr);
+        lvItem.setAdapter(itemAdapter);
+        itemAdapter.notifyDataSetChanged();
+        lvItem.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                allItemArr.get(position);
+                
+
+            }
+        });
+
     }
 
 
-
-    
 
 }
