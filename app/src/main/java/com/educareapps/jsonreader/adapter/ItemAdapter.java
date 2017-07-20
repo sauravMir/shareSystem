@@ -1,5 +1,6 @@
 package com.educareapps.jsonreader.adapter;
 
+import android.app.Activity;
 import android.content.ClipData;
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -21,7 +22,7 @@ import java.util.ArrayList;
 public class ItemAdapter extends BaseAdapter {
     ArrayList<Item> items;
     Context context;
-    LayoutInflater inflater = null;
+
 
     public ItemAdapter(Context context, ArrayList<Item> items) {
         this.context = context;
@@ -34,7 +35,9 @@ public class ItemAdapter extends BaseAdapter {
         ViewHolder holder = null;
         if (convertView == null) {
             holder = new ViewHolder();
-            convertView = inflater.inflate(R.layout.item_cell, null);
+            LayoutInflater   mInflater = (LayoutInflater) context
+                    .getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
+            convertView = mInflater.inflate(R.layout.item_cell, null);
             holder.tvItem = (TextView) convertView.findViewById(R.id.tvItem);
 
             convertView.setTag(holder);

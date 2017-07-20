@@ -566,7 +566,7 @@ public class Share {
     // Read taskPack JSON from SD to save in Database
     public void readSharedTaskPackJSONtoDatabase(String filePath) {
         try {
-            File file = new File(filePath, jsonFileName);
+            File file = new File(filePath);
             FileInputStream fileInputStream = new FileInputStream(file);
             String jsonStr = null;
             try {

@@ -2,13 +2,20 @@ package com.educareapps.jsonreader.activity;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.ClipData;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageButton;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.educareapps.jsonreader.R;
+import com.educareapps.jsonreader.adapter.ItemAdapter;
+import com.educareapps.jsonreader.dao.Item;
+import com.educareapps.jsonreader.dao.Task;
+import com.educareapps.jsonreader.dao.TaskPack;
 import com.educareapps.jsonreader.manager.DatabaseManager;
 import com.educareapps.jsonreader.manager.IDatabaseManager;
 import com.educareapps.jsonreader.share.Share;
@@ -17,6 +24,9 @@ import com.limbika.material.dialog.FileDialog;
 import com.limbika.material.dialog.SelectorDialog;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 public class MainActivity extends Activity implements View.OnClickListener{
 ImageButton ibtnImportId,ibtnShareId;
@@ -24,6 +34,10 @@ ImageButton ibtnImportId,ibtnShareId;
     ProgressDialog pDialog;
     Share share;
     private IDatabaseManager databaseManager;
+    ItemAdapter itemAdapter;
+    ArrayList<TaskPack>allTaskPackArr;
+    ArrayList<Item>allItemArr;
+    ListView lvItem;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,7 +47,8 @@ ImageButton ibtnImportId,ibtnShareId;
         databaseManager=new DatabaseManager(activity);
         ibtnImportId=(ImageButton)findViewById(R.id.ibtnImportId);
         ibtnShareId=(ImageButton)findViewById(R.id.ibtnShareId);
-
+        lvItem=(ListView) findViewById(R.id.lvItem);
+        reloadItems();
 
         ibtnImportId.setOnClickListener(this);
         ibtnShareId.setOnClickListener(this);
@@ -43,6 +58,7 @@ ImageButton ibtnImportId,ibtnShareId;
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.ibtnImportId:
+//                taskPackDelete();
 
                 FileDialog fileDialog = new FileDialog(activity, FileDialog.Strategy.FILE);
                 fileDialog.setCancelable(false);
@@ -50,7 +66,7 @@ ImageButton ibtnImportId,ibtnShareId;
                 fileDialog.setOnSelectListener(new SelectorDialog.OnSelectListener() {
                     @Override
                     public void onSelect(String filePath) {
-                        if (filePath != null && filePath.endsWith(StaticAccess.DOT_JSON)) {
+                        if (filePath != null && filePath.endsWith(StaticAccess.DOT_JSON.toUpperCase())) {
                             new JsonReading(filePath).execute();
                         } else{
                             Toast.makeText(activity, "no file path", Toast.LENGTH_LONG).show();
@@ -99,6 +115,44 @@ ImageButton ibtnImportId,ibtnShareId;
             if (pDialog.isShowing()) {
                 pDialog.dismiss();
             }
+            reloadItems();
+        }
+
+    }
+
+    private   class DeleteAsync extends AsyncTask<String, String, String> {
+        String filePath;
+
+
+        public DeleteAsync(String filePath) {
+            this.filePath = filePath;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+            pDialog = new ProgressDialog(activity);
+            pDialog.setMessage(getResources().getString(R.string.importPdialog));
+            pDialog.setCancelable(false);
+            pDialog.show();
+
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            taskPackDelete();
+
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            if (pDialog.isShowing()) {
+                pDialog.dismiss();
+            }
+            reloadItems();
 
         }
 
@@ -107,5 +161,46 @@ ImageButton ibtnImportId,ibtnShareId;
 
     // delete all data
 
+    public void taskPackDelete() {
+        allTaskPackArr =new ArrayList<>();
+        allTaskPackArr= (ArrayList<TaskPack>) databaseManager.listTaskPacks();
+        if (allTaskPackArr != null) {
+            for (TaskPack taskPack : allTaskPackArr) {
 
+                ArrayList<Task> tasks = (ArrayList<Task>) databaseManager.listTasksByTAskPackId(taskPack.getId());
+                if (tasks != null) {
+                    for (Task task : tasks) {
+                        LinkedHashMap<Long, Item> items = databaseManager.loadTaskWiseItem(task);
+                        if (items != null) {
+                            for (Map.Entry<Long, Item> itemValue : items.entrySet()) {
+                                Item item = itemValue.getValue();
+                                databaseManager.deleteItemById(item.getId());
+                            }
+                        }
+                        databaseManager.deleteTaskById(task.getId());
+                    }
+                }
+                databaseManager.deleteTaskPackById(taskPack.getId());
+            }
+        }
+
+
+        //fabMenu.close(true);
+
+    }
+
+    private void reloadItems() {
+        allItemArr=new ArrayList<>();
+        allItemArr=(ArrayList<Item>) databaseManager.listItems();
+        if(allItemArr.size()>0){
+             itemAdapter=new ItemAdapter(activity,allItemArr);
+            lvItem.setAdapter(itemAdapter);
+            lvItem.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                }
+            });
+        }
+    }
 }
