@@ -4,11 +4,36 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-<ListView
-    android:id="@+id/lvItem"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
 
-</ListView>
+    <LinearLayout
+        android:id="@+id/lnShare"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_below="@+id/etUserTextId"
+        android:orientation="horizontal"
+        android:weightSum="1">
+
+        <ImageButton
+            android:id="@+id/ibtnImportId"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight=".5" />
+
+        <ImageButton
+            android:id="@+id/ibtnShareId"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight=".5" />
+
+
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/lvItem"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/lnShare">
+
+    </ListView>
 
 </RelativeLayout>

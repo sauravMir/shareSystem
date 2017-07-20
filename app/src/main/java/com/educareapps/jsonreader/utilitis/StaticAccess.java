@@ -175,7 +175,7 @@ public class StaticAccess {
     // file name For encode json
     public static final String FILE_NAME                                   = "Task";
     public static final String TASK_PACK_FILE_NAME                         = "TaskPack_";
-    public static final String DOT_MAP                                     =  ".org";
+    public static final String DOT_MAP                                     =  ".JSON";
     public static final String SLASH                                       =  "/";
     public static final String SET_TYPE                                    = "application/zip";
     public static final String FILE_SLASH                                  ="file://";

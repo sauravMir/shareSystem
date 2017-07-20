@@ -3,21 +3,21 @@
 
     <item
         is-multidex="false"
-        jar="H:\RunTimeBackUp\shareSystem\Material\build\intermediates\bundles\default\libs\shared-v1.3.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.3"
-        sha1="7d55d0a01f75abf0580bd68cc01a658d721f5b6b">
-        <dex dex="H:\RunTimeBackUp\shareSystem\app\build\intermediates\pre-dexed\debug\shared-v1.3_ab002ded63ef027031103d69ef46c6790e05d6d7.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="H:\RunTimeBackUp\shareSystem\Material\build\intermediates\bundles\default\classes.jar"
+        jar="E:\Running Project\shareSystem\Material\build\intermediates\bundles\default\classes.jar"
         jumboMode="false"
         optimize="true"
         revision="25.0.3"
         sha1="be5d958aeb38649425e7b4a0dda051b4d9d61248">
-        <dex dex="H:\RunTimeBackUp\shareSystem\app\build\intermediates\pre-dexed\debug\classes_60e36a8e806a72e5c6379447d6663202da63447d.jar" />
+        <dex dex="E:\Running Project\shareSystem\app\build\intermediates\pre-dexed\debug\classes_01cb113a02bf637d2e08e00084f8c304e334ffe9.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="E:\Running Project\shareSystem\Material\build\intermediates\bundles\default\libs\shared-v1.3.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.3"
+        sha1="7d55d0a01f75abf0580bd68cc01a658d721f5b6b">
+        <dex dex="E:\Running Project\shareSystem\app\build\intermediates\pre-dexed\debug\shared-v1.3_4bd0e6d2f69d8cba3707df367328694b94314301.jar" />
     </item>
 
 </items>
