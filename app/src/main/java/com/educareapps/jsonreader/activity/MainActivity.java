@@ -1,12 +1,14 @@
 package com.educareapps.jsonreader.activity;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.app.ProgressDialog;
-import android.content.ClipData;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -19,11 +21,11 @@ import com.educareapps.jsonreader.dao.TaskPack;
 import com.educareapps.jsonreader.manager.DatabaseManager;
 import com.educareapps.jsonreader.manager.IDatabaseManager;
 import com.educareapps.jsonreader.share.Share;
+import com.educareapps.jsonreader.utilitis.DialogNavBarHide;
 import com.educareapps.jsonreader.utilitis.StaticAccess;
 import com.limbika.material.dialog.FileDialog;
 import com.limbika.material.dialog.SelectorDialog;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -203,4 +205,9 @@ ImageButton ibtnImportId,ibtnShareId;
             });
         }
     }
+
+
+
+    
+
 }
