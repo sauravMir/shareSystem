@@ -1,7 +1,9 @@
-package com.educareapps.jsonreader;
+package com.educareapps.jsonreader.activity;
 
 import android.app.Activity;
 import android.os.Bundle;
+
+import com.educareapps.jsonreader.R;
 
 public class MainActivity extends Activity {
 
