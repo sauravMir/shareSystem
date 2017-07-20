@@ -1,4 +1,4 @@
-package com.educareapps.jsonreader;
+package com.educareapps.jsonreader.adapter;
 
 import android.content.ClipData;
 import android.content.Context;
@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.educareapps.jsonreader.R;
 
 import java.util.ArrayList;
 
