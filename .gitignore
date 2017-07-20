@@ -67,3 +67,9 @@ app/app.iml
 .gradle/3.3/tasks/_app_compileDebugJavaWithJavac/localJarClasspathSnapshot/localJarClasspathSnapshot.lock
 *.lock
 .gradle/3.3/tasks/_app_compileDebugJavaWithJavac/localClassSetAnalysis/localClassSetAnalysis.bin
+*.lock
+.gradle/3.3/taskArtifacts/taskArtifacts.bin
+.gradle/3.3/taskArtifacts/fileSnapshots.bin
+*.bin
+.gradle/3.3/tasks/_app_compileDebugJavaWithJavac/localClassSetAnalysis/localClassSetAnalysis.bin
+*.lock

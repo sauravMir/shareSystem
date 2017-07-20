@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+
     <LinearLayout
         android:id="@+id/lnShare"
         android:layout_width="match_parent"
@@ -13,17 +14,19 @@
         android:orientation="horizontal"
         android:weightSum="1">
 
-        <ImageButton
+        <Button
             android:id="@+id/ibtnImportId"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight=".5" />
+            android:layout_weight=".5"
+            android:text="Import" />
 
-        <ImageButton
+        <Button
             android:id="@+id/ibtnShareId"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight=".5" />
+            android:layout_weight=".5"
+            android:text="@string/export" />
 
 
     </LinearLayout>
@@ -32,7 +35,8 @@
         android:id="@+id/lvItem"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/lnShare">
+        android:layout_below="@+id/lnShare"
+        android:layout_marginLeft="@dimen/twenty">
 
     </ListView>
 
