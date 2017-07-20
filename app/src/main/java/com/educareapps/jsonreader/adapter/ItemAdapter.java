@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.educareapps.jsonreader.R;
+import com.educareapps.jsonreader.dao.Item;
 
 import java.util.ArrayList;
 
@@ -18,12 +19,13 @@ import java.util.ArrayList;
  */
 
 public class ItemAdapter extends BaseAdapter {
-    ArrayList<ClipData.Item> items;
+    ArrayList<Item> items;
     Context context;
     LayoutInflater inflater = null;
 
-    public ItemAdapter(Context context, ArrayList<ClipData.Item> items) {
+    public ItemAdapter(Context context, ArrayList<Item> items) {
         this.context = context;
+        
         this.items = items;
     }
 
