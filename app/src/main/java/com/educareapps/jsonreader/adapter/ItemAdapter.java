@@ -25,7 +25,7 @@ public class ItemAdapter extends BaseAdapter {
 
     public ItemAdapter(Context context, ArrayList<Item> items) {
         this.context = context;
-        
+
         this.items = items;
     }
 
@@ -44,14 +44,16 @@ public class ItemAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        holder.tvItem.setText("sfs");
+        holder.tvItem.setText(items.get(position).getUserText());
 
 
         return convertView;
     }
-   private static class ViewHolder {
+
+    private static class ViewHolder {
         TextView tvItem;
     }
+
     @Override
     public int getCount() {
         return items.size();
