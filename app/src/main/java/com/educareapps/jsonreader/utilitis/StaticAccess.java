@@ -155,7 +155,7 @@ public class StaticAccess {
     /**
      * File Manager static Value for Share
      */
-    public static final String SD_CARD_ROOT_ORANGE_APP_GENERATED              = "/ORANGE_EDITOR/Generated";
+    public static final String SD_CARD_ROOT_ORANGE_APP_GENERATED              = "/JORGE";
 
     public static final String SD_CARD_ROOT_ORANGE_APP_GENERATED_JSON         = "/ORANGE_EDITOR/Generated/JSON/";
     public static final String SD_CARD_ROOT_ORANGE_APP_GENERATED_IMAGE        = "/ORANGE_EDITOR/Generated/Images/";

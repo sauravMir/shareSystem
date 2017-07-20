@@ -1,8 +1,9 @@
 <resources>
-    <string name="app_name">Json Reader</string>
+    <string name="app_name">Language Support</string>
     <string name="share">Share File</string>
     <string name="task_pack">Template Creator Task Pack</string>
     <string name="importPdialog">Please Wait json file importing..</string>
     <string name="ok">ok</string>
     <string name="addtext">addText</string>
+    <string name="export">Export</string>
 </resources>

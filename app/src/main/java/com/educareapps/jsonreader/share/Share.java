@@ -557,6 +557,7 @@ public class Share {
             writer.append(finalJsonObject.toString());
             writer.flush();
             writer.close();
+
         } catch (Exception e) {
             e.printStackTrace();
 

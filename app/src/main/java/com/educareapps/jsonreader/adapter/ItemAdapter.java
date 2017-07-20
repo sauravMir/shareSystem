@@ -47,7 +47,7 @@ public class ItemAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        holder.tvItem.setText(items.get(position).getUserText());
+        holder.tvItem.setText(String.valueOf(position+1)+". "+items.get(position).getUserText());
 
 
         return convertView;

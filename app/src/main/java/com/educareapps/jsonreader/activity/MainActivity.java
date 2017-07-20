@@ -1,5 +1,6 @@
 package com.educareapps.jsonreader.activity;
 
+import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
@@ -26,12 +27,14 @@ import com.educareapps.jsonreader.utilitis.StaticAccess;
 import com.limbika.material.dialog.FileDialog;
 import com.limbika.material.dialog.SelectorDialog;
 
+import org.json.JSONException;
+
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class MainActivity extends Activity implements View.OnClickListener {
-    ImageButton ibtnImportId, ibtnShareId;
+    Button ibtnImportId, ibtnShareId;
     MainActivity activity;
     ProgressDialog pDialog;
     Share share;
@@ -48,10 +51,10 @@ public class MainActivity extends Activity implements View.OnClickListener {
         activity = this;
         share = new Share(activity);
         databaseManager = new DatabaseManager(activity);
-        ibtnImportId = (ImageButton) findViewById(R.id.ibtnImportId);
-        ibtnShareId = (ImageButton) findViewById(R.id.ibtnShareId);
+        ibtnImportId = (Button) findViewById(R.id.ibtnImportId);
+        ibtnShareId = (Button) findViewById(R.id.ibtnShareId);
         lvItem = (ListView) findViewById(R.id.lvItem);
-        reloadItems();
+        reloadItems(0);
 
         ibtnImportId.setOnClickListener(this);
         ibtnShareId.setOnClickListener(this);
@@ -66,6 +69,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
                 break;
             case R.id.ibtnShareId:
+                new GenerateJson().execute();
                 break;
 
         }
@@ -104,7 +108,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
             if (pDialog.isShowing()) {
                 pDialog.dismiss();
             }
-            reloadItems();
+            reloadItems(0);
 
         }
 
@@ -137,7 +141,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
             if (pDialog.isShowing()) {
                 pDialog.dismiss();
             }
-            reloadItems();
+            reloadItems(0);
 
             FileDialog fileDialog = new FileDialog(activity, FileDialog.Strategy.FILE);
             fileDialog.setCancelable(false);
@@ -189,7 +193,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
     }
 
-    private void reloadItems() {
+    private void reloadItems(int position) {
         allItemArr = new ArrayList<>();
         allItemArr = (ArrayList<Item>) databaseManager.listItems();
 
@@ -200,13 +204,99 @@ public class MainActivity extends Activity implements View.OnClickListener {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 //                allItemArr.get(position);
-                
 
+                dialogForText(allItemArr.get(position),position);
             }
         });
+        if(position>0){
+            lvItem.setSelection(position);
+//            lvItem.setSelection(0,2000);
+//            final ObjectAnimator animScrollToTop = ObjectAnimator.ofInt(this, "scrollY", 0);
+        }
 
     }
 
+    public void dialogForText(final Item item, final int pos) {
+        final Dialog dialog = new Dialog(activity, R.style.CustomAlertDialog);
+        dialog.setContentView(R.layout.dialog_edit_text_mode);
+        dialog.setCancelable(false);
+
+        final EditText edtTextEdit = (EditText) dialog.findViewById(R.id.edtTextEdit);
+        final Button btnCancelEdit = (Button) dialog.findViewById(R.id.btnCancelEdit);
+        final Button btnOkEdit = (Button) dialog.findViewById(R.id.btnOkEdit);
+
+        if (item.getUserText() != null) {
+            edtTextEdit.setText(item.getUserText());
+        }
+
+        btnCancelEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        btnOkEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (item != null) {
+                    item.setUserText(edtTextEdit.getText().toString());
+                    databaseManager.updateItem(item);
+                    reloadItems(pos);
+                }
+
+                dialog.dismiss();
+            }
+        });
+        DialogNavBarHide.navBarHide(activity, dialog);
+
+    }
+
+    private class GenerateJson extends AsyncTask<String, String, String> {
+        String filePath;
+
+/*
+
+        public generateJson(String filePath) {
+            this.filePath = filePath;
+        }
+*/
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+            pDialog = new ProgressDialog(activity);
+            pDialog.setMessage(getResources().getString(R.string.importPdialog));
+            pDialog.setCancelable(false);
+            pDialog.show();
+
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+
+            allTaskPackArr = new ArrayList<>();
+            allTaskPackArr = (ArrayList<TaskPack>) databaseManager.listTaskPacks();
+            if (allTaskPackArr.size() > 0)
+                try {
+                    share.generateTaskPackJSON(allTaskPackArr);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+//            share.deleteReceivedFolder();
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            if (pDialog.isShowing()) {
+                pDialog.dismiss();
+            }
 
 
+        }
+
+    }
 }

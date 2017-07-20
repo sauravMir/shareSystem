@@ -27,34 +27,5 @@ public class EditActivity extends Activity {
     }
 
 
-    public void dialogForText() {
-        final Dialog dialog = new Dialog(activity, R.style.CustomAlertDialog);
-        dialog.setContentView(R.layout.dialog_edit_text_mode);
-        dialog.setCancelable(false);
 
-        final EditText edtTextEdit = (EditText) dialog.findViewById(R.id.edtTextEdit);
-        final Button btnCancelEdit = (Button) dialog.findViewById(R.id.btnCancelEdit);
-        final Button btnOkEdit = (Button) dialog.findViewById(R.id.btnOkEdit);
-
-
-
-        btnCancelEdit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
-        btnOkEdit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (edtTextEdit.getText().toString().length() == 0) {
-                    Toast.makeText(activity, "Please Add Text", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                dialog.dismiss();
-            }
-        });
-        DialogNavBarHide.navBarHide(activity, dialog);
-
-    }
 }
